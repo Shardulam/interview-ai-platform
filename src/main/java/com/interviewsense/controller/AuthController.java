@@ -5,10 +5,7 @@ import com.interviewsense.jwt.JwtUtil;
 import com.interviewsense.model.User;
 import com.interviewsense.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -26,12 +23,18 @@ public class AuthController {
 
     @PostMapping("/signup")
     public User signup(@RequestBody SignupRequest request) {
+        System.out.println("SIGNUP API HIT");
         return userService.registerUser(request.name(), request.email(), request.password());
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        System.out.println("LOGIN API HIT");
+        System.out.println("Email: " + request.getEmail());
+        System.out.println("Password: " + request.getPassword());
+
         User user = userService.authenticate(request.getEmail(), request.getPassword());
+
         if (user != null) {
             String token = jwtUtil.generateToken(user.getEmail());
             return ResponseEntity.ok(Map.of("token", token));

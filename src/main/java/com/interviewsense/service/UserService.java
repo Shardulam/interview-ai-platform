@@ -25,13 +25,24 @@ public class UserService {
     }
 
     public User authenticate(String email, String password) {
-        Optional<User> userOpt = userRepository.findByEmail(email);
-        if (userOpt.isPresent()) {
-            User user = userOpt.get();
-            if (user.getPassword().equals(password)) {
-                return user;
-            }
+    System.out.println("LOGIN TRY -> " + email + " | " + password);
+
+    Optional<User> userOpt = userRepository.findByEmail(email);
+
+    if (userOpt.isPresent()) {
+        User user = userOpt.get();
+        System.out.println("DB USER -> " + user.getEmail() + " | " + user.getPassword());
+
+        if (password.equals(user.getPassword())) {
+            System.out.println("LOGIN SUCCESS");
+            return user;
+        } else {
+            System.out.println("PASSWORD WRONG");
         }
-        return null;
+    } else {
+        System.out.println("USER NOT FOUND");
     }
+
+    return null;
+}
 }
