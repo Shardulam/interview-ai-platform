@@ -4,4 +4,3 @@ target/
 node_modules/
 .env
 .DS_Store
-src/main/resources/application.properties
